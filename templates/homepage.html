@@ -1,10 +1,52 @@
 {%extends 'base.html'%}
 {%load static%}
+{%load bootstrap5%}
 <head>
     <link rel="stylesheet" href="{%static 'styles/main.css'%}" />
 </head>
 <body>
     {%block content%}
-<h1>alhamdulellah guys</h1>
+<h1 class="text-center">E-commerce Ready Website</h1>
+<hr><br>
+
+<div class="container-lg">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+      Categories    </button>
+    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+      <li><a class="dropdown-item active" href="#">Phones</a></li>
+      <li><a class="dropdown-item" href="#">Tablets</a></li>
+      <li><a class="dropdown-item" href="#">Computers</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">All Categories</a></li>
+    </ul>
+
+<button type="button" class="btn btn-secondary float-end m-2">Top selling</button>
+<button type="button" class="btn btn-secondary float-end m-2">New products</button>
+<button type="button" class="btn btn-secondary float-end m-2">All products</button>
+
+<br>
+<img width="1300px" height="400px" src="{%static 'images/banner.jpg'%}">
+
+<br>
+
+<div class="row col-12 justify-content-center">
+  {%for product in products%}
+  <div class="card col-6 m-2" style="width: 18rem;">
+    <img class="card-img-top" src="{{product.image.url}}" alt="{{product.title}}">
+    <div class="card-body">
+      <h5 class="card-title">{{product.title}}</h5>
+      <p class="card-text">{{product.description|slice:'25'}}</p>
+      <a href="{%url 'addcart' product.id%}" class="btn btn-primary">Add to cart</a>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Price: ${{product.price}}</small>
+    </div>
+  </div>
+  {%endfor%}
+</div>
+
+<br><br>
+
+
 {%endblock%}
 </body>

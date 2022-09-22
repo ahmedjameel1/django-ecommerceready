@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'accounts.apps.AccountsConfig',
     'bootstrap5',
+    'carts.apps.CartsConfig',
 ]
 
 MIDDLEWARE = [
