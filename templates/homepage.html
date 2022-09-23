@@ -32,7 +32,7 @@
 <div class="row col-12 justify-content-center">
   {%for product in products%}
   <div class="card col-6 m-2" style="width: 18rem;">
-    <img class="card-img-top" src="{{product.image.url}}" alt="{{product.title}}">
+    <img class="card-img-top" src="{{product.imageURL}}" alt="{{product.title}}">
     <div class="card-body">
       <h5 class="card-title">{{product.title}}</h5>
       <p class="card-text">{{product.description|slice:'25'}}</p>

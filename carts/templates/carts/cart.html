@@ -2,6 +2,29 @@
 {%load static%}
 {%block content%}
 
-<h1> Cart </h1>
+<h1 class="text-center">Shopping Cart </h1>
+
+<br>
+
+<div class="card mb-4" style="max-width: 700px;">
+    <div class="row no-gutters">
+        {%for cartitem in cartitems%}
+      <div class="col-md-3">
+        <img src="{{cartitem.product.imageURL}}" class="card-img" alt="{{cartitem.product.imageURL}}">
+      </div>
+      <div class="col-md-8 mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{cartitem.product.title}}</h5>
+          <p class="card-text">{{cartitem.product.description}}</p>
+          <p class="card-text"><strong class="text-muted">Price ${{cartitem.product.price}}</strong>
+          <strong class="text-muted">Qty: {{cartitem.qty}}</strong><br>
+            <a class="btn btn-secondary" href="#">+</a>
+            <a class="btn btn-secondary" href="#">-</a>
+          <a class="btn btn-danger" href="#">Remove</a></class=>
+        </div>
+      </div> 
+      {%endfor%}
+    </div>
+  </div>
 
 {%endblock%}

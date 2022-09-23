@@ -8,12 +8,19 @@ class Product(models.Model):
     stock = models.IntegerField()
     is_active = models.BooleanField(default=True)
     slug = models.SlugField(max_length=50, unique=True)
-    image = models.ImageField(default="", upload_to="products/%y/%m/%d")
+    image = models.ImageField(default="default-store-350x350.jpg", upload_to="products/%y/%m/%d")
     created = models.DateTimeField(auto_now_add=True,editable=False)
     modified = models.DateTimeField(auto_now=True)
     #category = models.ForeignKey(Category, on_delete=models.CASCADE)
     
-    def __STR__(self):
+    def __str__(self):
         return self.title
 
     
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = "/images/default-store-350x350.jpg"
+        return url

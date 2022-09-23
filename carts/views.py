@@ -31,4 +31,7 @@ def add_cart(request,product_id):
         return redirect('cart')
 
 def cart(request):
-    return render(request,'carts/cart.html')
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    cartitems = cart.cartitem_set.filter(cart=cart,is_active=True)
+    ctx = {'cart':cart,'cartitems':cartitems}
+    return render(request,'carts/cart.html', ctx)

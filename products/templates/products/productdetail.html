@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block content%}
+
+<div class="card mb-4" style="max-width: 700px;">
+    <div class="row no-gutters">
+      <div class="col-md-3">
+        <img src="{{sproduct.imageURL}}" class="card-img" alt="{{sproduct.imageURL}}">
+      </div>
+      <div class="col-md-8 mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{sproduct.title}}</h5>
+          <p class="card-text">{{sproduct.description}}</p>
+          <p class="card-text"><strong class="text-muted">Price ${{sproduct.price}}</strong></p>  
+          {%if sproduct not in productslist%} 
+          <a class="btn btn-primary" href="#">Add to cart</a>
+          {%else%}
+          <a class="btn btn-success" href="{%url 'cart'%}">Added to cart</a>
+{%endif%}
+        </div>
+      </div> 
+    </div>
+  </div>
+
+
+{%endblock%}
