@@ -36,11 +36,8 @@
     <div class="card-body">
       <a class="text-dark btn" href="{%url 'productdetail' product.id%}"><h5 class="card-title">{{product.title}}</h5></a>
       <p class="card-text">{{product.description|slice:'25'}}</p>
-      {%if product not in productslist%}
       <a href="{%url 'addcart' product.id%}" class="btn btn-primary">Add to cart</a>
-      {%else%}
-      <a href="{%url 'cart'%}" class="btn btn-success">Added to cart</a>
-{%endif%}
+
     </div>
     <div class="card-footer">
       <small class="text-muted">Price: ${{product.price}}</small>

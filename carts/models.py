@@ -4,7 +4,7 @@ from products.models import Product as Pro
 
 # Create your models here.
 class Cart(models.Model):
-    cart_id = models.CharField(max_length=255)
+    cart_id = models.CharField(max_length=300)
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -25,4 +25,6 @@ class CartItem(models.Model):
     def cartItemPrice(self):
         return int(self.product.price*self.qty)
     
+    
+
     

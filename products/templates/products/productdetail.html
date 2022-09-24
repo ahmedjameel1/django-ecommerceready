@@ -14,7 +14,7 @@
           <p class="card-text">{{sproduct.description}}</p>
           <p class="card-text"><strong class="text-muted">Price ${{sproduct.price}}</strong></p>  
           {%if sproduct not in productslist%} 
-          <a class="btn btn-success" href="{%url 'addcart' sproduct.id%}">Add to cart</a>
+          <a class="btn btn-primary" href="{%url 'addcart' sproduct.id%}">Add to cart</a>
           {%else%}
           <a class="btn btn-success" href="{%url 'cart'%}">Added to cart</a>
 {%endif%}

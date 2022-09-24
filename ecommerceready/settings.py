@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-zq#@%erl#yj2f_rq@enc!)nguml*_ec-n2-yy-=_2sqti+59@+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.4','localhost']
 
 
 # Application definition
@@ -54,6 +54,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ecommerceready.urls'
+
+AUTH_USER_MODEL = 'accounts.Account'
 
 TEMPLATES = [
     {
@@ -126,7 +128,7 @@ import os
 STATIC_URL = 'static/'
 MEDIA_URL = '/images/'
 
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR , 'static']
 STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR , 'static/images')
 
@@ -134,3 +136,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR , 'static/images')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER =   'roarme247@gmail.com'
+EMAIL_HOST_PASSWORD = 'llepqzxamdmgcpzf'

@@ -1,0 +1,38 @@
+{%extends 'base.html'%}
+{%block content%}
+{% if request.GET.command == 'verification' %}
+        <div class="container mx-auto alert alert-info text-center" role="alert" style="max-width: 1024px; margin-top:100px;">
+
+We Have Sent You a verification link to your email Address: {{request.GET.email}}
+
+      <br><br>
+            Already Verified? <a href="{%url 'login'%}">Login</a>
+        </div>
+    <br><br>
+{%else%}
+<form method="post" action="{%url 'login'%}">
+    {% csrf_token %}
+    <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+        <article class="card-body">
+            <div class="card-title h1 text-center">Login</div>
+        <div class="form-row">
+          <div class="col form-group">
+            <label>Email </label>
+            {{form.email}}
+          
+          <div class="col form-group">
+            <label>Password</label>
+            {{form.password}}
+          </div>
+          
+          <br>
+          <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+        <p class="text-center mt-4">Have an account? <a href="{%url 'register'%}">Sign Up</a></p>
+    </div>
+</div>
+    
+    </form>
+    <br>
+{%endif%}
+{%endblock%}

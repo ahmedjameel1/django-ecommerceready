@@ -4,8 +4,8 @@ from django.db import models
 class Product(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=250, blank=True, null=True)
-    price = models.IntegerField()
-    stock = models.IntegerField()
+    price = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField()
     is_active = models.BooleanField(default=True)
     slug = models.SlugField(max_length=50, unique=True)
     image = models.ImageField(default="default-store-350x350.jpg", upload_to="products/%y/%m/%d")

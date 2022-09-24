@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from . models import Cart, CartItem
 from products.models import Product
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -58,7 +59,13 @@ def remove_cart(request,product_id):
 
 
 def cart(request):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    cartitems = cart.cartitem_set.filter(cart=cart,is_active=True)
+    print(request.path)
+    cart = None
+    cartitems = None
+    try:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cartitems = cart.cartitem_set.filter(cart=cart,is_active=True).order_by('-qty')
+    except ObjectDoesNotExist:
+        pass
     ctx = {'cart':cart,'cartitems':cartitems}
     return render(request,'carts/cart.html', ctx)
