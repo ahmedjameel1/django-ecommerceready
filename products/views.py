@@ -15,6 +15,8 @@ def home(request):
 def product(request, product_id):
     sproduct = Product.objects.get(id=product_id)
     products = Product.objects.all()
+    colors = sproduct.variations_set.colors()
+    capacity = sproduct.variations_set.capacities()
     cart = None
     cartitems = None
     productslist = []
@@ -26,5 +28,5 @@ def product(request, product_id):
     except ObjectDoesNotExist:
         pass
     ctx = {'productslist':productslist, 'sproduct':sproduct
-        ,'products':products}
+        ,'products':products,'colors':colors,'capacity':capacity}
     return render(request, 'products/productdetail.html', ctx)

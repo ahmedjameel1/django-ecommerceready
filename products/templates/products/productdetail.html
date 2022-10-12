@@ -6,18 +6,43 @@
 <div class="card mb-4">
     <div class="row no-gutters">
       <div class="col-md-3">
-        <a href"{%url 'productdetail' sproduct.id%}"><img src="{{sproduct.imageURL}}" class="card-img" alt="{{sproduct.imageURL}}"></a>
+        <a href="{%url 'productdetail' sproduct.id%}"><img src="{{sproduct.imageURL}}" class="card-img" alt="{{sproduct.imageURL}}"></a>
       </div>
       <div class="col-md-8 mb-3">
         <div class="card-body">
-          <a href"{%url 'productdetail' sproduct.id%}"><h5 class="card-title">{{sproduct.title}}</h5></a>
+          <a href="{%url 'productdetail' sproduct.id%}"><h5 class="card-title">{{sproduct.title}}</h5></a>
           <p class="card-text">{{sproduct.description}}</p>
+
+          <form method="POST" action="{%url 'addcart' sproduct.id%}">
+            {% csrf_token %}
+          {%if colors%}
+          
+            <div class="item-option-select">
+                <h6>Choose Color</h6>
+                <select name="color"  required>
+                  <option value="" selected disabled>select</option>
+                  {%for c in colors %}
+                <option value="{{c.variation_value|lower}}"> {{c.variation_value|capfirst}} </option>
+                {%endfor%}
+                </select>
+            </div>
+         <br>
+            {%endif%}
+        {%if capacity%}
+        <div class="item-option-select">
+          <h6>Choose Capacity</h6>
+          <select name="capacity"  required>
+            <option value="" selected disabled>select</option>
+            {%for cap in capacity %}
+          <option value="{{cap.variation_value|lower}}"> {{cap.variation_value|capfirst}} </option>
+          {%endfor%}
+          </select>
+      </div>
+      {%endif%}
+   <br>
           <p class="card-text"><strong class="text-muted">Price ${{sproduct.price}}</strong></p>  
-          {%if sproduct not in productslist%} 
-          <a class="btn btn-primary" href="{%url 'addcart' sproduct.id%}">Add to cart</a>
-          {%else%}
-          <a class="btn btn-success" href="{%url 'cart'%}">Added to cart</a>
-{%endif%}
+          <input class="btn btn-primary" type="submit" value="Add to cart">
+      </form>
         </div>
       </div> 
     </div>
@@ -45,6 +70,6 @@
     </div>
     {%endfor%}
   </div>
-  
+
 
 {%endblock%}

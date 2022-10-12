@@ -18,6 +18,9 @@
         <div class="card-body">
           <a class="text-dark btn" href="{%url 'productdetail' cartitem.product.id%}"><h5 class="card-title">{{cartitem.product.title}}</h5></a>
           <p class="card-text">{{cartitem.product.description}}</p>
+          {%for var in cartitem.variation.all%}
+          <p class="card-text">{{var.variation_category|capfirst}}: <span>{{var}}</span></p>
+          {%endfor%}
           <p class="card-text"><strong class="text-muted">Price ${{cartitem.product.price}}</strong>
           <strong class="text-muted">Qty: {{cartitem.qty}}</strong><br>
             <a class="btn btn-secondary" href="{%url 'addcart' cartitem.product.id %}">+</a>

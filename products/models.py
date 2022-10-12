@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 
@@ -37,13 +38,14 @@ class VariationsManger(models.Manager):
     def colors(self):
         return super(VariationsManger, self).filter(variation_category='color',is_active=True)
     
-    def sizes(self):
+    def capacities(self):
         return super(VariationsManger, self).filter(variation_category='capacity',is_active=True)
 
 
 class Variations(models.Model):
     product            = models.ForeignKey(Product, on_delete=models.CASCADE)
     variation_category = models.CharField(max_length=100,choices=VARIATIONS_CHOICES)
+    variation_value = models.CharField(max_length=100, null=True, blank=True)
     is_active          = models.BooleanField(default=True)
     created_date       = models.DateTimeField(auto_now=True)
     
@@ -53,3 +55,5 @@ class Variations(models.Model):
     def __str__(self):
         return str(self.variation_value)
     
+    class Meta:
+        verbose_name = ("Variation")
