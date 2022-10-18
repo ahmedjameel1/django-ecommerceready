@@ -66,26 +66,30 @@ def add_cart(request,product_id):
         cartitem.save()
     return redirect('cart')
 
-def decrease_cart(request,product_id):
+def decrease_cart(request,product_id,cart_item_id):
     product = Product.objects.get(id=product_id)
     cart = Cart.objects.get(cart_id=_cart_id(request))
-    cartitem = CartItem.objects.filter(cart=cart, product=product).exists()
-    if cartitem == True:
-        cartitem = CartItem.objects.get(cart=cart, product=product)
+    try:
+        cartitem = CartItem.objects.get(cart=cart, product=product,id=cart_item_id)
         if cartitem.qty > 1:
             cartitem.qty -= 1 
             cartitem.save()
         else:
             cartitem.delete()
             cart.save()
+    except:
+        pass
     return redirect('cart')
 
-def remove_cart(request,product_id):
+def remove_cart(request,product_id,cart_item_id):
     product = Product.objects.get(id=product_id)
     cart = Cart.objects.get(cart_id=_cart_id(request))
-    cartitem = CartItem.objects.get(product=product, cart=cart)
-    cartitem.delete()
-    cart.save()
+    try:
+        cartitem = CartItem.objects.get(product=product, cart=cart,id=cart_item_id)
+        cartitem.delete()
+        cart.save()
+    except:
+        pass
     return redirect('cart')
 
 

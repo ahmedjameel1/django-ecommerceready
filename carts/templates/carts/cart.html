@@ -22,10 +22,16 @@
           <p class="card-text">{{var.variation_category|capfirst}}: <span>{{var}}</span></p>
           {%endfor%}
           <p class="card-text"><strong class="text-muted">Price ${{cartitem.product.price}}</strong>
-          <strong class="text-muted">Qty: {{cartitem.qty}}</strong><br>
-            <a class="btn btn-secondary" href="{%url 'addcart' cartitem.product.id %}">+</a>
-            <a class="btn btn-secondary" href="{%url 'decreasecart' cartitem.product.id%}">-</a>
-          <a class="btn btn-danger" href="{%url 'removecart' cartitem.product.id%}">Remove</a>
+          <strong class="text-muted">Qty: {{cartitem.qty}}</strong><br></p>
+          <p></p><form method="POST" action="{%url 'addcart' cartitem.product.id %}">
+            {%csrf_token%}
+            {%for item in cartitem.variation.all%}
+            <input type="hidden" name="{{item.variation_category|lower}}" value="{{item.variation_value|capfirst}}">
+            {%endfor%}
+            <button type="submit" class="btn btn-secondary">+</button>
+            </form>
+            <a class="btn btn-secondary" href="{%url 'decreasecart' cartitem.product.id cartitem.id%}">-</a>
+          <a class="btn btn-danger" href="{%url 'removecart' cartitem.product.id cartitem.id%}">Remove</a></p>
         </div>
       </div> 
       {%endfor%}

@@ -36,7 +36,7 @@
     <div class="card-body">
       <a class="text-dark btn" href="{%url 'productdetail' product.id%}"><h5 class="card-title">{{product.title}}</h5></a>
       <p class="card-text">{{product.description|slice:'25'}}</p>
-      <a href="{%url 'addcart' product.id%}" class="btn btn-primary">Add to cart</a>
+      <a href="{%url 'productdetail' product.id%}" class="btn btn-primary">View Product Page</a>
 
     </div>
     <div class="card-footer">
