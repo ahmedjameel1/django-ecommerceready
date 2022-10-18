@@ -91,3 +91,62 @@ def activate(request,uidb64,token):
     else:
         messages.info(request,'Link Expired!')
         return redirect('register')
+
+
+def forgotPassword(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        if Account.objects.filter(email=email).exists():
+            user = Account.objects.get(email__exact=email)
+            current_site=get_current_site(request)
+            mail_subject = "Reset Your Password!"
+            message = render_to_string("accounts/forgotpasswordemail.html",
+            {
+            'user' : user,
+            'domain':current_site,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token':default_token_generator.make_token(user)
+            })
+            to_email = email
+            send_email = EmailMessage(mail_subject, message ,to=[to_email])
+            send_email.send()
+            messages.success(request, 'An Email with instructions sent to your emailaddress!')
+        else:
+            messages.error(request, 'Enter a Valid EmailAdress!')
+    return render(request, 'accounts/forgotpassword.html')
+
+
+def resetPassword_validate(request,uidb64,token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None
+
+    if user != None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        return redirect('resetPassword')
+    else:
+        messages.info(request,'Expired Link!')
+        return redirect('login')
+
+
+
+def resetPassword(request):
+    if request.method == "POST":
+        password = request.POST['enterpassword']
+        confirm  = request.POST['confirmpassword']
+
+        if password == confirm:
+            uid = request.session.get('uid')
+            user= Account.objects.get(pk=uid)
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'Success!')
+            return redirect('login')
+        else:
+            messages.info(request, 'Password doesn\'t match!')
+            return redirect('resetPassword')
+
+    return render(request, 'accounts/resetPassword.html')
