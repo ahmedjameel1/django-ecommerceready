@@ -8,7 +8,7 @@
 {%if not cartitems %}
 <h1 class="text-center"><a class="link-secondary btn text-center" href="{% url 'home' %}"><h1>Add Products To the Cart</h1></a></h1>
 {%else%}
-<div class="card mb-4" style="max-width: 700px;">
+<div class="card mb-4" style="max-width: 100%;">
     <div class="row no-gutters">
         {%for cartitem in cartitems%}
       <div class="col-md-3">
@@ -29,14 +29,22 @@
             <input type="hidden" name="{{item.variation_category|lower}}" value="{{item.variation_value|capfirst}}">
             {%endfor%}
             <button type="submit" class="btn btn-secondary">+</button>
-            </form>
             <a class="btn btn-secondary" href="{%url 'decreasecart' cartitem.product.id cartitem.id%}">-</a>
           <a class="btn btn-danger" onclick="return confirm('are you sure you want to delete cart item?')" href="{%url 'removecart' cartitem.product.id cartitem.id%}">Remove</a></p>
+            </form>
+            <br>
+            
         </div>
+        <hr>
       </div> 
+      
       {%endfor%}
     </div>
   </div>
+  <div class="card mb-2" style="max-width: 25%;">
+    <a class="btn btn-primary" href="{%url 'checkout'%}">Checkout</a>
+  </div>
+  <br>
  {%endif%}
 
 {%endblock%}

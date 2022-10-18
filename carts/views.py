@@ -103,3 +103,9 @@ def cart(request):
         pass
     ctx = {'cart':cart,'cartitems':cartitems}
     return render(request,'carts/cart.html', ctx)
+
+
+def checkout(request):
+    cart = Cart.objects.get(cart_id=_cart_id(request))
+    cartitems = CartItem.objects.filter(cart=cart)
+    return render(request, 'carts/cartcheckout.html',{'cartitems':cartitems})
