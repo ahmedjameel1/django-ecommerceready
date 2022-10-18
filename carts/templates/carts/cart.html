@@ -31,7 +31,7 @@
             <button type="submit" class="btn btn-secondary">+</button>
             </form>
             <a class="btn btn-secondary" href="{%url 'decreasecart' cartitem.product.id cartitem.id%}">-</a>
-          <a class="btn btn-danger" href="{%url 'removecart' cartitem.product.id cartitem.id%}">Remove</a></p>
+          <a class="btn btn-danger" onclick="return confirm('are you sure you want to delete cart item?')" href="{%url 'removecart' cartitem.product.id cartitem.id%}">Remove</a></p>
         </div>
       </div> 
       {%endfor%}
