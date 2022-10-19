@@ -105,29 +105,42 @@ def add_cart(request,product_id):
     return redirect('cart')
 
 def decrease_cart(request,product_id,cart_item_id):
+    user = request.user
     product = Product.objects.get(id=product_id)
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    try:
-        cartitem = CartItem.objects.get(cart=cart, product=product,id=cart_item_id)
+    if user.is_authenticated == False:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        try:
+            cartitem = CartItem.objects.get(cart=cart, product=product,id=cart_item_id)
+            if cartitem.qty > 1:
+                cartitem.qty -= 1 
+                cartitem.save()
+            else:
+                cartitem.delete()
+        except:
+            pass
+    else:
+        cartitem = CartItem.objects.get(user=user,product=product,id=cart_item_id)
         if cartitem.qty > 1:
             cartitem.qty -= 1 
             cartitem.save()
         else:
             cartitem.delete()
-            cart.save()
-    except:
-        pass
     return redirect('cart')
 
 def remove_cart(request,product_id,cart_item_id):
     product = Product.objects.get(id=product_id)
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    try:
-        cartitem = CartItem.objects.get(product=product, cart=cart,id=cart_item_id)
+    user = request.user
+    if user.is_authenticated == False:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        try:
+            cartitem = CartItem.objects.get(product=product, cart=cart,id=cart_item_id)
+            cartitem.delete()
+            cart.save()
+        except:
+            pass
+    else:
+        cartitem = CartItem.objects.get(product=product, user=user,id=cart_item_id)
         cartitem.delete()
-        cart.save()
-    except:
-        pass
     return redirect('cart')
 
 
