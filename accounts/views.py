@@ -10,6 +10,9 @@ from django.utils.http import urlsafe_base64_encode , urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
+
+from carts.views import _cart_id
+from carts.models import Cart, CartItem
 # Create your views here.
 def register(request):  
     if request.user.is_authenticated:
@@ -60,6 +63,41 @@ def login(request):
         password = request.POST['password']
         user = authenticate(request, email=email, password=password)
         if user is not None and user.is_active == True:
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+                cart_items_exist = CartItem.objects.filter(cart=cart).exists()
+                if cart_items_exist:
+                    cart_items = CartItem.objects.filter(cart=cart)
+                    # GETTING THE PRODUCT VARIATION BY CART ID
+                    product_variation = []
+                    for item in cart_items:
+                        variation = item.variation.all()
+                        product_variation.append(list(variation))
+
+                    # GET THE CART ITEMS FROM THE USER
+                    cart_items = CartItem.objects.filter(user=user)
+                    existing_variation_list = []
+                    cart_item_id = []
+                    for item in cart_items:
+                        existing_variation = item.variation.all()
+                        existing_variation_list.append(list(existing_variation))
+                        cart_item_id.append(item.id)
+
+                    for product in product_variation:
+                        if product in existing_variation_list:
+                            index = existing_variation_list.index(product)
+                            item_id = cart_item_id[index]
+                            item = CartItem.objects.get(id=item_id)
+                            item.qty += 1
+                            item.user = user
+                            item.save()
+                        else:
+                            cart_items = CartItem.objects.filter(cart=cart)
+                            for item in cart_items:
+                                item.user = user
+                                item.save()
+            except:
+                pass
             auth.login(request,user)
             messages.success(request,'Welcome '+ request.user.username+'!')
             return redirect('home')
