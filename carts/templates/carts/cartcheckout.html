@@ -5,13 +5,13 @@
 <div class="row">
     <div class="col-75">
       <div class="container">
-        <form action="/action_page.php">
-  
+        <form method="POST" action="{%url 'placeorder'%}">
+  {% csrf_token %}
           <div class="row">
             <div class="col-50">
               <h3>Billing Address</h3>
-              <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-              <input class='form-control' type="text" id="fname" name="firstname" placeholder="John M. Doe">
+              <label for="fullname"><i class="fa fa-user"></i> Full Name</label>
+              <input class='form-control' type="text" id="fname" name="name" placeholder="John M. Doe">
               <label for="email"><i class="fa fa-envelope"></i> Email</label>
               <input class='form-control' type="text" id="email" name="email" placeholder="john@example.com">
               <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
@@ -28,15 +28,20 @@
                   <label for="zip">Zip</label>
                   <input class='form-control' type="text" id="zip" name="zip" placeholder="10001">
                 </div>
+                <div class="col-50">
+                  <label for="phone">Phone</label>
+                  <input class='form-control' type="text" id="zip" name="phone" placeholder="+20">
+                </div>
+               
               </div>
             </div>
   
-            <div class="col-50">
+            <div class="col-50"> <br>
               <h3>Payment:</h3>
               <h4 class="selected">PayPal</h4><br>
           </div>
           <br>
-          <input class='btn btn-primary' type="submit" value="Place Order" class="btn">
+          <button class='btn btn-primary' type="submit">Place Order</button>
         
         </form> <br>
       </div>

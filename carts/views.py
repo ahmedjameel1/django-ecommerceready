@@ -164,12 +164,16 @@ def cart(request):
 
 @login_required(login_url='login')
 def checkout(request):
-    cart = Cart.objects.get(cart_id=_cart_id(request))
-    cartitems = CartItem.objects.filter(cart=cart)
-    price = 0
-    count = 0
-    for cartitem in cartitems:
-        count += cartitem.qty
-        price += cartitem.product.price*cartitem.qty
+    cart = None
+    if request.user.is_authenticated == False:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+    else:
+        cartitems = CartItem.objects.filter(cart=cart)
+        price = 0
+        count = 0
+        for cartitem in cartitems:
+            count += cartitem.qty
+            price += cartitem.product.price*cartitem.qty
     return render(request, 'carts/cartcheckout.html',{'cartitems':cartitems,'price':price
     ,'count':count})
+

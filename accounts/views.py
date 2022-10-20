@@ -14,6 +14,7 @@ from django.core.mail import EmailMessage
 from carts.views import _cart_id
 from carts.models import Cart, CartItem
 # Create your views here.
+
 def register(request):  
     if request.user.is_authenticated:
         return redirect('home') 
