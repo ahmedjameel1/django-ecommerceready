@@ -4,6 +4,7 @@ from . models import Cart, CartItem
 from products.models import Product, Variations
 from django.core.exceptions import ObjectDoesNotExist
 from accounts.models import Account
+from orders.forms import OrderForm
 # Create your views here.
 def _cart_id(request):
     cart = request.session.session_key
@@ -174,6 +175,10 @@ def checkout(request):
         for cartitem in cartitems:
             count += cartitem.qty
             price += cartitem.product.price*cartitem.qty
-    return render(request, 'carts/cartcheckout.html',{'cartitems':cartitems,'price':price
-    ,'count':count})
+    form = OrderForm()
+    ctx = {
+        'form':form,'cartitems':cartitems,'price':price
+    ,'count':count}
+    
+    return render(request, 'carts/cartcheckout.html',ctx)
 

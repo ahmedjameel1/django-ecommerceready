@@ -6,44 +6,21 @@
     <div class="col-75">
       <div class="container">
         <form method="POST" action="{%url 'placeorder'%}">
-  {% csrf_token %}
-          <div class="row">
-            <div class="col-50">
-              <h3>Billing Address</h3>
-              <label for="fullname"><i class="fa fa-user"></i> Full Name</label>
-              <input class='form-control' type="text" id="fname" name="name" placeholder="John M. Doe">
-              <label for="email"><i class="fa fa-envelope"></i> Email</label>
-              <input class='form-control' type="text" id="email" name="email" placeholder="john@example.com">
-              <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-              <input class='form-control' type="text" id="adr" name="address" placeholder="542 W. 15th Street">
-              <label for="city"><i class="fa fa-institution"></i> City</label>
-              <input class='form-control' type="text" id="city" name="city" placeholder="New York">
-  
-              <div class="row">
-                <div class="col-50">
-                  <label for="state">State</label>
-                  <input class='form-control'type="text" id="state" name="state" placeholder="NY">
-                </div>
-                <div class="col-50">
-                  <label for="zip">Zip</label>
-                  <input class='form-control' type="text" id="zip" name="zip" placeholder="10001">
-                </div>
-                <div class="col-50">
-                  <label for="phone">Phone</label>
-                  <input class='form-control' type="text" id="zip" name="phone" placeholder="+20">
-                </div>
-               
-              </div>
-            </div>
-  
+  {% csrf_token %}              <h3>Billing Address</h3>
+
+    {%for field in form%}
+    {{field.label}}
+    {{field}}
+    {%endfor%}
             <div class="col-50"> <br>
               <h3>Payment:</h3>
               <h4 class="selected">PayPal</h4><br>
           </div>
           <br>
+          
           <button class='btn btn-primary' type="submit">Place Order</button>
         
-        </form> <br>
+         <br>
       </div>
     </div>
  <br>
@@ -57,13 +34,15 @@
           </span>
         </h4>
         {%for cartitem in cartitems%}
-        <img src="{{cartitem.product.imageURL}}" width="25%">
+        <img src="{{cartitem.product.imageURL}}" width="10%">
         <p><a href="{%url 'productdetail' cartitem.product.id%}">{{cartitem.product.title}}</a> <span class="price">${{cartitem.product.price}}</span></p>
         <p><span class="price">Qty: {{cartitem.qty}}</span></p>
         <hr>
         {%endfor%}
+        
         <p>Total <span class="price" style="color:black"><b>${{price}}</b></span></p>
-      </div>
+    </form>  
+  </div>
     </div>
   </div>
   {%endblock%}
