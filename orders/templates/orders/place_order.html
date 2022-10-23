@@ -8,7 +8,7 @@
     <h4 class="container">
 
     <!-- ============================ COMPONENT 1 ================================= -->
- <h4 class="text-center mb-1" >Review order and make Payment <img max-width="25px" height="25px"  src="{%static 'images/icons/secure-payment.png'%}"></h4>
+ <h4 class="text-center mb-1" >Review order and make Payment</h4>
 
         <br>
         <div class="row">
@@ -100,10 +100,11 @@
                   <dd class="text-right text-dark b"><strong>${{order_grand}}</strong></dd>
                 </dl>
                 <hr>
-                <p class="text-center mb-3">
-                    <img src="{%static 'images/misc/payments.png'%}" height="26">
-                </p>
-    <div id="paypal-button-container"></div>
+                
+    <div>
+      <a class="btn btn-primary" href="{%url 'paymentsuccess' %}">Make Payment</a>
+    </div>
+  
 
             </div> <!-- card-body.// -->
             </div> <!-- card.// -->
