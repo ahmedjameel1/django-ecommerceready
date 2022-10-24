@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
-from carts.models import CartItem , Cart
-from .forms import OrderForm , Order
+from carts.models import CartItem , Cart 
+from .forms import OrderForm 
 import datetime
 from .models import Payment
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-
+from orders.models import Order , OrderProduct
+from products.models import Variations
 
 def placeOrder(request):
     current_user = request.user
@@ -58,9 +59,11 @@ def paymentSuccess(request):
     price = 0 
     for item in cartitems:
         price += item.product.price*item.qty
+       
     order = Order.objects.get(user=current_user,is_ordered = False)
     tax = price * 10 / 100
     order_grand = price + tax
+
     yr = int(datetime.date.today().strftime('%Y'))
     dt = int(datetime.date.today().strftime('%d'))
     mt = int(datetime.date.today().strftime('%m'))
@@ -74,6 +77,7 @@ def paymentSuccess(request):
     status='Accepted')
     order.payment = payment
     order.save()
+
     current_site=get_current_site(request)
     mail_subject = "Payment Success!"
     email = order.user.email
@@ -89,12 +93,31 @@ def paymentSuccess(request):
     order.is_ordered = True
     order.status = 'Accepted'
     order.save()
+
     cart = CartItem.objects.filter(user=current_user)
     for item in cart:
-        item.delete()
         item.product.stock -= item.qty
         item.product.save()
-        
+        order_product = OrderProduct.objects.create(
+            user=current_user,
+            order=order,
+            payment=payment,
+            product=item.product,
+            quantity=item.qty,
+            product_price=item.product.price, 
+            
+        )
+        order_product.ordered = True
+        order_product.save()
+        cartitem = CartItem.objects.get(id=item.id)
+        variations = cartitem.variation.all()
+        orderproduct = OrderProduct.objects.get(id=order_product.id)
+        orderproduct.variations.set(variations)
+        orderproduct.save()
+        item.delete()
+
     ctx = {'order':order,'cartitems':cartitems,'order_grand':order_grand
     ,'tax':tax}
     return render(request, 'orders/paymentsuccess.html',ctx)
+
+

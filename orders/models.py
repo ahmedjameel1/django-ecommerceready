@@ -54,7 +54,7 @@ class Order(models.Model):
         return f"{self.address_line_1} {self.address_line_2}"
 
     def __str__(self):
-        return self.first_name
+        return self.order_number
 
 
 class OrderProduct(models.Model):
@@ -62,10 +62,8 @@ class OrderProduct(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, blank=True, null=True)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    variation = models.ForeignKey(Variations, on_delete=models.CASCADE)
-    color = models.CharField(max_length=20)
-    size = models.CharField(max_length=20)
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=0)
+    variations = models.ManyToManyField(Variations)
     product_price = models.FloatField()
     ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

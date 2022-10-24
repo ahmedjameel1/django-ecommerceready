@@ -45,9 +45,7 @@ def add_cart(request,product_id):
                 id.append(item.id)
             if product_variations in ex_variation:
                 index = ex_variation.index(product_variations)
-                print(index)
                 item_id = id[index]
-                print(item_id)
                 item = CartItem.objects.get(product=product, id=item_id)
                 item.qty += 1
                 item.save()
@@ -81,9 +79,7 @@ def add_cart(request,product_id):
                 id.append(item.id)
             if product_variations in ex_variation:
                 index = ex_variation.index(product_variations)
-                print(index)
                 item_id = id[index]
-                print(item_id)
                 item = CartItem.objects.get(product=product,user=user, id=item_id)
                 item.qty += 1
                 item.save()

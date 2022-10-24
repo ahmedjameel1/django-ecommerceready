@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zq#@%erl#yj2f_rq@enc!)nguml*_ec-n2-yy-=_2sqti+59@+'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=True,cast=bool)
 
 ALLOWED_HOSTS = ['192.168.1.4','localhost']
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'carts.apps.CartsConfig',
     'orders.apps.OrdersConfig',
+    'admin_honeypot'
 ]
 
 MIDDLEWARE = [
@@ -135,9 +136,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER =   'roarme247@gmail.com'
-EMAIL_HOST_PASSWORD = 'llepqzxamdmgcpzf'
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS',cast=bool,default=True)
+EMAIL_PORT = config('EMAIL_PORT',cast=int)
+EMAIL_HOST_USER =   config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
